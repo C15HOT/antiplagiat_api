@@ -145,10 +145,17 @@ class AntiplagiatClient:
 
         return result.dict()
 
+if __name__=='__main__':
+    import time
 
-client = AntiplagiatClient(login="testapi@antiplagiat.ru", password="testapi",
-                           company_name="testapi", apicorp_address="api.antiplagiat.ru:44902")
+    start_time = time.time()
 
-import asyncio
 
-pprint(asyncio.run(client.simple_check("../1.txt")))
+    client = AntiplagiatClient(login="testapi@antiplagiat.ru", password="testapi",
+                               company_name="testapi", apicorp_address="api.antiplagiat.ru:44902")
+
+    import asyncio
+    pprint(asyncio.run(client.simple_check("../1.txt")))
+
+
+    print("--- %s seconds ---" % (time.time() - start_time))
