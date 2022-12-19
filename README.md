@@ -85,11 +85,12 @@ pydantic валидированный словарь вида:
 client = AntiplagiatClient(login="testapi@antiplagiat.ru",
                            password="testapi",
                            company_name="testapi")
-client.get_verification_report_pdf('/1.txt', 
-                                   author='Иванов',
-                                   department='ИТМО',
-                                   type='Диплом',
-                                   verifier='Иванов', work='Тема работы')
+client.get_verification_report_pdf('1.txt', 
+                                   author='Ivanov',                              
+                                   department='ITMO',
+                                   type='Diplom',
+                                   verifier='Petrov',
+                                   work='topic of work')
 
 ```
 
