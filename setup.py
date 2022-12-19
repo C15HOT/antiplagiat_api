@@ -3,12 +3,12 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-with open('requirements_dev.txt') as f:
+with open('requirements.txt') as f:
     required = f.read().splitlines()
     print(required)
 setup(
     name="antiplagiat-api",
-    version="0.0.1",
+    version="0.1.1",
     author="C15HOT",
     author_email="wvxp@mail.ru",
     description="Antiplagiat API",
