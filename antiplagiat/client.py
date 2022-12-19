@@ -422,17 +422,3 @@ class AsyncAntiplagiatClient:
             logger.error(f'Error: {exc}')
 
 
-if __name__ == '__main__':
-    client = AntiplagiatClient(login="testapi@antiplagiat.ru", password="testapi",
-                               company_name="testapi")
-    client.get_verification_report_pdf('../1.txt', author='Иванов',
-                                       department='ИТМО', type='Диплом', verifier='Иванов', work='Тема работы')
-
-    client = AsyncAntiplagiatClient(login="testapi@antiplagiat.ru", password="testapi",
-                                    company_name="testapi")
-
-    print(asyncio.run(client.simple_check('../1.txt')))
-
-    # asyncio.run(client.get_verification_report_pdf('../1.txt', author='Иванов',
-    #                                                department='ИТМО', type='Диплом', verifier='Иванов',
-    #                                                work='Тема работы'))
