@@ -20,8 +20,8 @@ class AntiplagiatClient:
     def __init__(self, login,
                  password,
                  company_name,
-                 apicorp_address,
-                 antiplagiat_uri="https://testapi.antiplagiat.ru"):
+                 apicorp_address="api.antiplagiat.ru:44902",
+                 antiplagiat_uri="https://testapi.antiplagiat.ru",):
 
         self.antiplagiat_uri = antiplagiat_uri
         self.login = login
@@ -232,7 +232,7 @@ class AsyncAntiplagiatClient:
     def __init__(self, login,
                  password,
                  company_name,
-                 apicorp_address,
+                 apicorp_address="api.antiplagiat.ru:44902",
                  antiplagiat_uri="https://testapi.antiplagiat.ru"):
         self.antiplagiat_uri = antiplagiat_uri
         self.login = login
@@ -245,7 +245,7 @@ class AsyncAntiplagiatClient:
             transport=AsyncTransport(client=self.httpx_client))
         self.factory = self.client.type_factory('ns0')
 
-    async def _get_async_doc_data(self, filename: str, external_user_id: str):
+    async def _get_doc_data(self, filename: str, external_user_id: str):
         Data = base64.b64encode(open(filename, "rb").read()).decode()
         FileName = os.path.splitext(filename)[0]
         FileType = os.path.splitext(filename)[1]
@@ -260,7 +260,7 @@ class AsyncAntiplagiatClient:
                            ) -> SimpleCheckResult:
         logger.info("SimpleCheck filename=" + filename)
 
-        data = await self._get_async_doc_data(filename, external_user_id=external_user_id)
+        data = await self._get_doc_data(filename, external_user_id=external_user_id)
         docatr = self.factory.DocAttributes()
         personIds = self.factory.PersonIDs()
         personIds.CustomID = personIds
@@ -349,7 +349,7 @@ class AsyncAntiplagiatClient:
 
         return result.dict()
 
-    async def _get_async_report_name(self, id, reportOptions):
+    async def _get_report_name(self, id, reportOptions):
         author = u''
 
         if reportOptions is not None:
@@ -359,19 +359,19 @@ class AsyncAntiplagiatClient:
         curDate = datetime.datetime.today().strftime('%Y%m%d')
         return f'Certificate_{id.Id}_{curDate}_{author}.pdf'
 
-    async def get_async_verification_report_pdf(self, filename: str,
-                                                author: str,
-                                                department: str,
-                                                type: str,
-                                                verifier: str,
-                                                work: str,
-                                                path: str = None,
-                                                external_user_id: str = 'ivanov'
-                                                ):
+    async def get_verification_report_pdf(self, filename: str,
+                                          author: str,
+                                          department: str,
+                                          type: str,
+                                          verifier: str,
+                                          work: str,
+                                          path: str = None,
+                                          external_user_id: str = 'ivanov'
+                                          ):
 
         logger.info("Get report pdf:" + filename)
 
-        data = await self._get_async_doc_data(filename, external_user_id=external_user_id)
+        data = await self._get_doc_data(filename, external_user_id=external_user_id)
 
         uploadResult = await self.client.service.UploadDocument(data)
 
@@ -404,7 +404,7 @@ class AsyncAntiplagiatClient:
             #Декодирование не нужно
             # decoded = base64.b64decode(reportWithFields)
 
-            fileName = await self._get_async_report_name(id, reportOptions)
+            fileName = await self._get_report_name(id, reportOptions)
 
             if path:
                 if not os.path.exists(path):
@@ -421,3 +421,18 @@ class AsyncAntiplagiatClient:
         except Exception as exc:
             logger.error(f'Error: {exc}')
 
+
+if __name__ == '__main__':
+    client = AntiplagiatClient(login="testapi@antiplagiat.ru", password="testapi",
+                               company_name="testapi")
+    client.get_verification_report_pdf('../1.txt', author='Иванов',
+                                       department='ИТМО', type='Диплом', verifier='Иванов', work='Тема работы')
+
+    client = AsyncAntiplagiatClient(login="testapi@antiplagiat.ru", password="testapi",
+                                    company_name="testapi")
+
+    print(asyncio.run(client.simple_check('../1.txt')))
+
+    # asyncio.run(client.get_verification_report_pdf('../1.txt', author='Иванов',
+    #                                                department='ИТМО', type='Диплом', verifier='Иванов',
+    #                                                work='Тема работы'))
