@@ -1,22 +1,21 @@
 # Antiplagiat api
 
-##Описание:
+##Description:
 
-Библиотека предназначена для использования API сервиса "Антиплагиат".
+The library is designed to use the API of the "Antiplagiate" service.
 
-Библиотека  позволяет работать как в синхронном, так и в асинхронном режиме.
+The library allows you to work in both synchronous and asynchronous mode.
 
-Перед использованием API необходимо получить доступ на сайте "Антиплагиата" (Без этого библиотека может быть использована в тестовом режиме, проверка будет осуществляться от имени тестового пользователя в "Википедии")
+Before using the API, you must access the "Antiplagiate" website 
+(Without this, the library can be used in test mode, verification will be carried out on behalf of the test user on Wikipedia)
 ___
+## Version 0.0.1:
+We implemented the functions of searching for borrowings with the receipt of a detailed report, as well as the receipt of a report in pdf format.
+### Classes:
 
-## Версия 0.0.1:
-Реализованы фукнции поиска заимствований с получением подробного отчета, а такж получения отчета в pdf - формате.
+***AntiplagiatClient*** - synchronous client
 
-### Классы:
-
-***AntiplagiatClient*** - синхронный клиент
-
-Принимает параметры:
+Getting parameters:
 
     login="testapi@antiplagiat.ru", 
     password="testapi",
@@ -25,9 +24,9 @@ ___
     antiplagiat_uri="https://testapi.antiplagiat.ru"
 
 
-***AsyncAntiplagiatClient*** - асинхронный клиент
+***AsyncAntiplagiatClient*** - asynchronous client
 
-Принимает параметры:
+Getting parameters:
 
     login="testapi@antiplagiat.ru", 
     password="testapi",
@@ -36,20 +35,20 @@ ___
     antiplagiat_uri="https://testapi.antiplagiat.ru"
 
 
-### Методы:
+### Methods:
 
-***simple_check*** - Проверка документа с использованием всех подключенных сервисов
+***simple_check*** - verifying the document using all connected services
 
-Принимает параметры:
+Getting parameters:
 
     filename: str, author_surname='',
     author_other_names='',
     external_user_id='ivanov', 
     custom_id='original'
 
-Возвращает:
+return:
 
-pydantic валидированный словарь вида:
+pydantic validated dictionary of the form:
 
     {'filename': '1.txt', 
     'plagiarism': '83.48%', 
@@ -62,9 +61,9 @@ pydantic валидированный словарь вида:
     'author': {'surname': None, 'othernames': None, 'custom_id': None}}
 
 
-***get_verification_report_pdf*** - Проверка документа и получение отчета в pdf - формате
+***get_verification_report_pdf*** - Document Review and Report PDF
 
-Принимает параметры:
+Getting parameters:
 
      filename: str,
      author: str,
@@ -75,10 +74,10 @@ pydantic валидированный словарь вида:
      path: str = None,
      external_user_id: str = 'ivanov'
 
-Создает pdf - файл отчета в указанной директории.
+Creates a pdf - report file in the specified directory.
 
 
-## Пример использования:
+## Usage example
 
 ```python
 
