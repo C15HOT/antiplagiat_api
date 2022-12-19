@@ -1,6 +1,6 @@
 # Antiplagiat api
 
-##Description:
+## Description:
 
 The library is designed to use the API of the "Antiplagiate" service.
 
@@ -9,6 +9,7 @@ The library allows you to work in both synchronous and asynchronous mode.
 Before using the API, you must access the "Antiplagiate" website 
 (Without this, the library can be used in test mode, verification will be carried out on behalf of the test user on Wikipedia)
 ___
+
 ## Version 0.0.1:
 We implemented the functions of searching for borrowings with the receipt of a detailed report, as well as the receipt of a report in pdf format.
 ### Classes:

@@ -8,7 +8,7 @@ with open('requirements_dev.txt') as f:
     print(required)
 setup(
     name="antiplagiat-api",
-    version="0.0.2",
+    version="0.0.1",
     author="C15HOT",
     author_email="wvxp@mail.ru",
     description="Antiplagiat API",
