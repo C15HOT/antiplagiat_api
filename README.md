@@ -92,6 +92,8 @@ client.get_verification_report_pdf('1.txt',
                                    type='Diplom',
                                    verifier='Petrov',
                                    work='topic of work')
+client.simple_check('1.txt')
+
 
 ```
 
