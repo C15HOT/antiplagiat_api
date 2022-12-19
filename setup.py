@@ -7,7 +7,7 @@ with open('requirements_dev.txt') as f:
     required = f.read().splitlines()
     print(required)
 setup(
-    name="antiplagiat-api",
+    name="antiplagiat",
     version="0.0.1",
     author="C15HOT",
     author_email="wvxp@mail.ru",
