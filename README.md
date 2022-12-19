@@ -80,6 +80,7 @@ Creates a pdf - report file in the specified directory.
 
 ## Usage example
 
+
 ```python
 
 client = AntiplagiatClient(login="testapi@antiplagiat.ru",
@@ -94,3 +95,4 @@ client.get_verification_report_pdf('1.txt',
 
 ```
 
+For asynchronous usage create AsyncAntiplagiatClient and use await to call methods
