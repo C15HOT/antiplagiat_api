@@ -2,6 +2,7 @@ import asyncio
 import datetime
 import os
 
+
 import httpx
 import suds.client
 import time
@@ -9,7 +10,7 @@ import time
 import zeep
 from zeep.transports import AsyncTransport
 
-from antiplagiat.libs.schemas import SimpleCheckResult, Service, Source, Author
+from antiplagiat.libs.schemas import SimpleCheckResult, Service, Source, Author, LoanBlock
 import base64
 
 from antiplagiat.libs.logger import logger
@@ -141,6 +142,8 @@ class AntiplagiatClient:
         options.NeedAttributes = True
         fullreport = self.client.service.GetReportView(id, options)
 
+
+
         logger.info(f"Author Surname={fullreport.Attributes.DocumentDescription.Authors.AuthorName[0].Surname} "
                     f"OtherNames={fullreport.Attributes.DocumentDescription.Authors.AuthorName[0].OtherNames} "
                     f"CustomID={fullreport.Attributes.DocumentDescription.Authors.AuthorName[0].PersonIDs.CustomID}")
@@ -148,6 +151,15 @@ class AntiplagiatClient:
         result.author.surname = fullreport.Attributes.DocumentDescription.Authors.AuthorName[0].Surname
         result.author.othernames = fullreport.Attributes.DocumentDescription.Authors.AuthorName[0].OtherNames
         result.author.custom_id = fullreport.Attributes.DocumentDescription.Authors.AuthorName[0].PersonIDs.CustomID
+
+        loan_blocks = []
+        if fullreport.Details.CiteBlocks:
+            for block in fullreport.Details.CiteBlocks:
+                loan_block = LoanBlock(text=fullreport.Details.Text[block.Offset:block.Offset + block.Length],
+                                       offset=block.Offset,
+                                       length=block.Length)
+                loan_blocks.append(loan_block)
+        result.loan_blocks = loan_blocks
 
         return result.dict()
 
@@ -346,6 +358,15 @@ class AsyncAntiplagiatClient:
         result.author.surname = None
         result.author.othernames = None
         result.author.custom_id = None
+
+        loan_blocks = []
+        if fullreport.Details.CiteBlocks:
+            for block in fullreport.Details.CiteBlocks:
+                loan_block = LoanBlock(text=fullreport.Details.Text[block.Offset:block.Offset + block.Length],
+                                       offset=block.Offset,
+                                       length=block.Length)
+                loan_blocks.append(loan_block)
+        result.loan_blocks = loan_blocks
 
         return result.dict()
 

@@ -21,8 +21,16 @@ class Author(BaseModel):
     othernames: Optional[str]
     custom_id: Optional[str]
 
+class LoanBlock(BaseModel):
+    text: str
+    offset: int
+    length: int
+
 class SimpleCheckResult(BaseModel):
     filename: str
     plagiarism: str
     services: List[Service]
     author: Optional[Author]
+    loan_blocks: Optional[List[LoanBlock]]
+
+
