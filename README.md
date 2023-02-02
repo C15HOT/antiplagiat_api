@@ -42,7 +42,8 @@ Getting parameters:
 
 Getting parameters:
 
-    filename: str, author_surname='',
+    filename: str, 
+    author_surname='',
     author_other_names='',
     external_user_id='ivanov', 
     custom_id='original'
